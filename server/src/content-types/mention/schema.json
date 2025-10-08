@@ -1,0 +1,26 @@
+{
+  "kind": "collectionType",
+  "collectionName": "mention",
+  "info": {
+    "singularName": "mention",
+    "pluralName": "mentions",
+    "displayName": "Mention"
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {
+    "content-manager": {
+      "visible": true
+    },
+    "content-type-builder": {
+      "visible": true
+    }
+  },
+
+  "attributes": {
+    "title": {
+      "type": "string"
+    }
+  }
+}
