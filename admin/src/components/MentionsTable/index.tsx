@@ -12,7 +12,7 @@ import {
   Box,
   IconButton,
 } from '@strapi/design-system';
-import { Pencil, Trash } from '@strapi/icons';
+import { Pencil, Trash, Eye } from '@strapi/icons';
 import type { IMention } from '../../types';
 
 const COL_COUNT = 7;
@@ -77,13 +77,27 @@ export function MentionsTable({ mentions }: MentionsTableProps) {
             </Td>
             <Td>
               <Flex>
-                <IconButton
-                  onClick={() => console.log('edit', mention.documentId)}
-                  label="Edit"
-                  borderWidth={0}
-                >
-                  <Pencil />
-                </IconButton>
+                {mention.url && (
+                  <IconButton
+                    tag="a"
+                    href={mention.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    label="View source"
+                    borderWidth={0}
+                  >
+                    <Eye />
+                  </IconButton>
+                )}
+                <Box paddingLeft={1}>
+                  <IconButton
+                    onClick={() => console.log('edit', mention.documentId)}
+                    label="Edit"
+                    borderWidth={0}
+                  >
+                    <Pencil />
+                  </IconButton>
+                </Box>
                 <Box paddingLeft={1}>
                   <IconButton
                     onClick={() => console.log('delete', mention.documentId)}
