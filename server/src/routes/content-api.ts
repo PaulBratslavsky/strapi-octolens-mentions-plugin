@@ -39,4 +39,9 @@ export default [
       policies: [],
     },
   },
+  {
+    method: 'POST',
+    path: '/ingest',
+    handler: 'ingest.ingest'
+  }
 ];

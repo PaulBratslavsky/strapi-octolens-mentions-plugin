@@ -17,9 +17,63 @@
       "visible": true
     }
   },
-
   "attributes": {
+    "action": {
+      "type": "string"
+    },
     "title": {
+      "type": "string"
+    },
+    "body": {
+      "type": "text"
+    },
+    "url": {
+      "type": "string"
+    },
+    "timestamp": {
+      "type": "string"
+    },
+    "imageUrl": {
+      "type": "string"
+    },
+    "author": {
+      "type": "string"
+    },
+    "authorProfileLink": {
+      "type": "string"
+    },
+    "source": {
+      "type": "string"
+    },
+    "sourceId": {
+      "type": "string"
+    },
+    "relevanceScore": {
+      "type": "string"
+    },
+    "relevanceComment": {
+      "type": "text"
+    },
+    "keyword": {
+      "type": "string"
+    },
+    "bookmarked": {
+      "type": "boolean",
+      "default": false
+    },
+    "language": {
+      "type": "string"
+    },
+    "sentimentLabel": {
+      "type": "string"
+    },
+    "viewId": {
+      "type": "integer"
+    },
+    "viewName": {
+      "type": "string"
+    },
+    "subreddit": {
       "type": "string"
     }
   }
