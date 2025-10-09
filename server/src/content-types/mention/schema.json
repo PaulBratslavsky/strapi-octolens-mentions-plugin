@@ -68,7 +68,7 @@
       "type": "string"
     },
     "viewId": {
-      "type": "integer"
+      "type": "string"
     },
     "viewName": {
       "type": "string"
