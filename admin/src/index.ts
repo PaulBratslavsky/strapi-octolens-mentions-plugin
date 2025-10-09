@@ -1,7 +1,9 @@
-import { getTranslation } from './utils/getTranslation';
+import { Globe } from "@strapi/icons";
+
 import { PLUGIN_ID } from './pluginId';
 import { Initializer } from './components/Initializer';
 import { PluginIcon } from './components/PluginIcon';
+import { MentionsWidget } from "./components/MentionsWidget";
 
 export default {
   register(app: any) {
@@ -19,12 +21,24 @@ export default {
       },
     });
 
+    app.widgets.register({
+      icon: Globe,
+      title: {
+        id: `${PLUGIN_ID}.mentions-widget.title`,
+        defaultMessage: "Social Mentions"
+      },
+      component: () => Promise.resolve(MentionsWidget),
+      pluginId: PLUGIN_ID,
+      id: "mentions-widget"
+    })
+
     app.registerPlugin({
       id: PLUGIN_ID,
       initializer: Initializer,
       isReady: false,
       name: PLUGIN_ID,
     });
+
   },
 
   async registerTrads({ locales }: { locales: string[] }) {

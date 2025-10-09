@@ -1,14 +1,22 @@
-import { Main } from '@strapi/design-system';
-import { useIntl } from 'react-intl';
-
-import { getTranslation } from '../utils/getTranslation';
+import { Main, Box, Typography } from '@strapi/design-system';
+import { MentionsTable } from '../components/MentionsTable';
+import { useMentions } from '../hooks/useMentions';
 
 const HomePage = () => {
-  const { formatMessage } = useIntl();
+  const { mentions, loading, error } = useMentions();
 
   return (
     <Main>
-      <h1>Welcome to {formatMessage({ id: getTranslation('plugin.name') })}</h1>
+      <Box padding={8}>
+        <Typography variant="alpha">
+          Mentions
+        </Typography>
+      </Box>
+      <Box paddingLeft={8} paddingRight={8}> 
+        {loading && <Typography>Loading mentions...</Typography>}
+        {error && <Typography textColor="danger600">Error: {error.message}</Typography>}
+        {!loading && !error && <MentionsTable mentions={mentions} />}
+      </Box>
     </Main>
   );
 };

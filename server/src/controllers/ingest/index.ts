@@ -1,15 +1,34 @@
 import type { Core } from '@strapi/strapi';
 
+/**
+ * Gets the display title for a mention.
+ * If title is empty or "Untitled", uses the first 100 characters from body.
+ */
+function getMentionTitle(title: string, body: string): string {
+  if (!title || title.trim() === '' || title.toLowerCase() === 'untitled') {
+    if (!body) return 'Untitled';
+
+    const excerpt = body.substring(0, 100).trim();
+    return excerpt.length === 100 ? `${excerpt}...` : excerpt;
+  }
+
+  return title;
+}
+
 const controller = ({ strapi }: { strapi: Core.Strapi }) => ({
   async ingest(ctx) {
     const requestBody = ctx.request.body;
 
     if (!requestBody?.data) return ctx.badRequest('Missing data in request body');
 
+    const rawTitle = requestBody.data?.title || '';
+    const rawBody = requestBody.data?.body || '';
+    const generatedTitle = getMentionTitle(rawTitle, rawBody);
+
     const mentionData = {
       action: requestBody.action,
-      title: requestBody.data?.title || '',
-      body: requestBody.data?.body || '',
+      title: generatedTitle,
+      body: rawBody,
       url: requestBody.data?.url || '',
       timestamp: requestBody.data?.timestamp || '',
       imageUrl: requestBody.data?.imageUrl || '',
