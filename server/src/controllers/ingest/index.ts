@@ -17,9 +17,11 @@ function getMentionTitle(title: string, body: string): string {
 
 const controller = ({ strapi }: { strapi: Core.Strapi }) => ({
   async ingest(ctx) {
-    const requestBody = ctx.request.body;
+    const requestBody = ctx.request.body; 
 
     if (!requestBody?.data) return ctx.badRequest('Missing data in request body');
+
+    ctx.body = { data: requestBody?.data };
 
     const rawTitle = requestBody.data?.title || '';
     const rawBody = requestBody.data?.body || '';
@@ -42,7 +44,7 @@ const controller = ({ strapi }: { strapi: Core.Strapi }) => ({
       bookmarked: requestBody.data?.bookmarked || false,
       language: requestBody.data?.language || '',
       sentimentLabel: requestBody.data?.sentimentLabel || '',
-      viewId: requestBody.data?.viewId || null,
+      viewId: requestBody.data?.viewId ? String(requestBody.data.viewId) : '',
       viewName: requestBody.data?.viewName || '',
       subreddit: requestBody.data?.subreddit || '',
     };
