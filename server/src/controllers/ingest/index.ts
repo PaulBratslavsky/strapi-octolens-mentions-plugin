@@ -9,7 +9,7 @@ function getMentionTitle(title: string, body: string): string {
     if (!body) return 'Untitled';
 
     const excerpt = body.substring(0, 100).trim();
-    return excerpt.length === 100 ? `${excerpt}...` : excerpt;
+    return excerpt.length === 64 ? `${excerpt}...` : excerpt;
   }
 
   return title;
@@ -18,6 +18,8 @@ function getMentionTitle(title: string, body: string): string {
 const controller = ({ strapi }: { strapi: Core.Strapi }) => ({
   async ingest(ctx) {
     const requestBody = ctx.request.body;
+
+    console.dir(requestBody, { depth: null})
 
     if (!requestBody?.data) return ctx.badRequest('Missing data in request body');
 
@@ -42,10 +44,15 @@ const controller = ({ strapi }: { strapi: Core.Strapi }) => ({
       bookmarked: requestBody.data?.bookmarked || false,
       language: requestBody.data?.language || '',
       sentimentLabel: requestBody.data?.sentimentLabel || '',
-      viewId: requestBody.data?.viewId || null,
+      viewId: requestBody.data?.viewId || undefined,
       viewName: requestBody.data?.viewName || '',
       subreddit: requestBody.data?.subreddit || '',
     };
+
+    console.log('###############################');
+    console.log('Parsed mention data:', mentionData);
+    console.log('###############################');
+    
 
     try {
       const mention = await strapi.service('plugin::octalens-mentions.mention').create({
