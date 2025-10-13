@@ -51,7 +51,7 @@ const controller = ({ strapi }: { strapi: Core.Strapi }) => ({
       bookmarked: requestBody.data?.bookmarked || false,
       language: requestBody.data?.language || '',
       sentimentLabel: requestBody.data?.sentimentLabel || '',
-      viewId: requestBody.data?.viewId ? String(requestBody.data.viewId) : '',
+      viewId: requestBody.data?.viewId || null,
       viewName: requestBody.data?.viewName || '',
       subreddit: requestBody.data?.subreddit || '',
     };
