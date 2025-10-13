@@ -17,7 +17,14 @@ function getMentionTitle(title: string, body: string): string {
 
 const controller = ({ strapi }: { strapi: Core.Strapi }) => ({
   async ingest(ctx) {
-    const requestBody = ctx.request.body; 
+    // Log raw request for debugging
+    console.log('Raw request body:', JSON.stringify(ctx.request.body, null, 2));
+
+    console.log('###############################');
+    console.log('Raw mention data:', ctx.request.body);
+    console.log('###############################');
+
+    const requestBody = ctx.request.body;
 
     if (!requestBody?.data) return ctx.badRequest('Missing data in request body');
 
