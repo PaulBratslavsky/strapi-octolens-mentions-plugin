@@ -17,18 +17,9 @@ function getMentionTitle(title: string, body: string): string {
 
 const controller = ({ strapi }: { strapi: Core.Strapi }) => ({
   async ingest(ctx) {
-    // Log raw request for debugging
-    console.log('Raw request body:', JSON.stringify(ctx.request.body, null, 2));
-
-    console.log('###############################');
-    console.log('Raw mention data:', ctx.request.body);
-    console.log('###############################');
-
     const requestBody = ctx.request.body;
 
     if (!requestBody?.data) return ctx.badRequest('Missing data in request body');
-
-    ctx.body = { data: requestBody?.data };
 
     const rawTitle = requestBody.data?.title || '';
     const rawBody = requestBody.data?.body || '';
@@ -55,10 +46,6 @@ const controller = ({ strapi }: { strapi: Core.Strapi }) => ({
       viewName: requestBody.data?.viewName || '',
       subreddit: requestBody.data?.subreddit || '',
     };
-
-    console.log('###############################');
-    console.log('Parsed mention data:', mentionData);
-    console.log('###############################');
 
     try {
       const mention = await strapi.service('plugin::octalens-mentions.mention').create({
