@@ -42,6 +42,34 @@ export default [
   {
     method: 'POST',
     path: '/ingest',
-    handler: 'ingest.ingest'
-  }
+    handler: 'ingest.ingest',
+  },
+  // MCP routes
+  {
+    method: 'POST',
+    path: '/mcp',
+    handler: 'mcp.handle',
+    config: {
+      policies: [],
+      auth: false,
+    },
+  },
+  {
+    method: 'GET',
+    path: '/mcp',
+    handler: 'mcp.handle',
+    config: {
+      policies: [],
+      auth: false,
+    },
+  },
+  {
+    method: 'DELETE',
+    path: '/mcp',
+    handler: 'mcp.handle',
+    config: {
+      policies: [],
+      auth: false,
+    },
+  },
 ];

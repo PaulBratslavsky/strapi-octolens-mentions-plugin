@@ -1,6 +1,32 @@
 {
-  "version": "0.0.14",
-  "keywords": [],
+  "name": "octalens-mentions",
+  "version": "0.1.0",
+  "description": "A Strapi v5 plugin that fetches social mentions from Octolens and exposes them via MCP (Model Context Protocol), enabling AI assistants like Claude to search, analyze, and help write responses to social media mentions.",
+  "keywords": [
+    "strapi",
+    "strapi-plugin",
+    "strapi-v5",
+    "mcp",
+    "model-context-protocol",
+    "claude",
+    "ai",
+    "anthropic",
+    "octolens",
+    "social-mentions",
+    "social-media",
+    "mentions",
+    "monitoring"
+  ],
+  "homepage": "https://github.com/PaulBratslavsky/octalens-mentions#readme",
+  "bugs": {
+    "url": "https://github.com/PaulBratslavsky/octalens-mentions/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/PaulBratslavsky/octalens-mentions.git"
+  },
+  "license": "MIT",
+  "author": "Paul Bratslavsky <paul.bratslavsky@strapi.io>",
   "type": "commonjs",
   "exports": {
     "./package.json": "./package.json",
@@ -20,32 +46,41 @@
     }
   },
   "files": [
-    "dist"
+    "dist",
+    "LICENSE",
+    "README.md"
   ],
   "scripts": {
     "build": "strapi-plugin build",
     "watch": "strapi-plugin watch",
     "watch:link": "strapi-plugin watch:link",
     "verify": "strapi-plugin verify",
+    "prepublishOnly": "npm run build",
     "test:ts:front": "run -T tsc -p admin/tsconfig.json",
     "test:ts:back": "run -T tsc -p server/tsconfig.json"
   },
   "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.12.0",
     "@strapi/design-system": "^2.0.0-rc.30",
     "@strapi/icons": "^2.0.0-rc.30",
-    "react-intl": "^7.1.13"
+    "react-intl": "^7.1.13",
+    "zod": "^4.0.0"
   },
+  "bundledDependencies": [
+    "@modelcontextprotocol/sdk",
+    "zod"
+  ],
   "devDependencies": {
     "@strapi/strapi": "^5.27.0",
     "@strapi/sdk-plugin": "^5.3.2",
+    "@strapi/typescript-utils": "^5.27.0",
+    "@types/react": "^19.2.2",
+    "@types/react-dom": "^19.2.1",
     "prettier": "^3.6.2",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-router-dom": "^6.30.1",
     "styled-components": "^6.1.19",
-    "@types/react": "^19.2.2",
-    "@types/react-dom": "^19.2.1",
-    "@strapi/typescript-utils": "^5.27.0",
     "typescript": "^5.9.3"
   },
   "peerDependencies": {
@@ -56,14 +91,13 @@
     "react-router-dom": "^6.30.1",
     "styled-components": "^6.1.19"
   },
+  "engines": {
+    "node": ">=18.0.0"
+  },
   "strapi": {
     "kind": "plugin",
     "name": "octalens-mentions",
-    "displayName": "Octalens Mentions",
-    "description": "Get all mentions from Octalense to be able to do something cool with."
-  },
-  "name": "octalens-mentions",
-  "description": "Get all mentions from Octalense to be able to do something cool with.",
-  "license": "MIT",
-  "author": "Paul Brats <paul.bratslavsky@strapi.io>"
+    "displayName": "Octolens Mentions",
+    "description": "Fetch and manage social mentions from Octolens with MCP support for AI assistants"
+  }
 }
