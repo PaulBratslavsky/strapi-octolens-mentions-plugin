@@ -5,9 +5,20 @@ import { searchMentionsTool, handleSearchMentions } from './search-mentions';
 import { listMentionsTool, handleListMentions } from './list-mentions';
 import { getMentionTool, handleGetMention } from './get-mention';
 import { updateMentionTool, handleUpdateMention } from './update-mention';
+import { recordResponseTool, handleRecordResponse } from './record-response';
+import { listResponsesTool, handleListResponses } from './list-responses';
+import { getResponseTool, handleGetResponse } from './get-response';
 
 // Export all tool definitions
-export const tools = [searchMentionsTool, listMentionsTool, getMentionTool, updateMentionTool];
+export const tools = [
+  searchMentionsTool,
+  listMentionsTool,
+  getMentionTool,
+  updateMentionTool,
+  recordResponseTool,
+  listResponsesTool,
+  getResponseTool,
+];
 
 // Tool handler registry
 const toolHandlers: Record<string, (strapi: Core.Strapi, args: unknown) => Promise<any>> = {
@@ -15,6 +26,9 @@ const toolHandlers: Record<string, (strapi: Core.Strapi, args: unknown) => Promi
   list_mentions: handleListMentions,
   get_mention: handleGetMention,
   update_mention: handleUpdateMention,
+  record_response: handleRecordResponse,
+  list_responses: handleListResponses,
+  get_response: handleGetResponse,
 };
 
 /**

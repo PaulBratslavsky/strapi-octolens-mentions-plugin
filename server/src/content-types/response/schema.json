@@ -1,0 +1,48 @@
+{
+  "kind": "collectionType",
+  "collectionName": "response",
+  "info": {
+    "singularName": "response",
+    "pluralName": "responses",
+    "displayName": "Response"
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {
+    "content-manager": {
+      "visible": true
+    },
+    "content-type-builder": {
+      "visible": false
+    }
+  },
+  "attributes": {
+    "mention": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "plugin::octalens-mentions.mention"
+    },
+    "responseText": {
+      "type": "text",
+      "required": true
+    },
+    "platform": {
+      "type": "string"
+    },
+    "responseUrl": {
+      "type": "string"
+    },
+    "status": {
+      "type": "enumeration",
+      "enum": ["draft", "posted", "failed"],
+      "default": "draft"
+    },
+    "respondedAt": {
+      "type": "datetime"
+    },
+    "notes": {
+      "type": "text"
+    }
+  }
+}

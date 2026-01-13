@@ -36,11 +36,38 @@ export const UpdateMentionSchema = z.object({
   }).describe('Fields to update on the mention'),
 });
 
+// Schema for record_response tool
+export const RecordResponseSchema = z.object({
+  mentionDocumentId: z.string().min(1, 'Mention document ID is required'),
+  responseText: z.string().min(1, 'Response text is required'),
+  platform: z.string().optional().describe('Platform where response was posted'),
+  responseUrl: z.string().optional().describe('URL to the posted response'),
+  status: z.enum(['draft', 'posted']).optional().default('draft'),
+  notes: z.string().optional().describe('Internal notes'),
+});
+
+// Schema for list_responses tool
+export const ListResponsesSchema = z.object({
+  page: z.number().int().min(1).optional().default(1),
+  pageSize: z.number().int().min(1).max(100).optional().default(25),
+  status: z.enum(['draft', 'posted', 'failed']).optional(),
+  platform: z.string().optional(),
+  sort: z.string().optional().default('createdAt:desc'),
+});
+
+// Schema for get_response tool
+export const GetResponseSchema = z.object({
+  documentId: z.string().min(1, 'Document ID is required'),
+});
+
 // Type exports
 export type SearchMentionsInput = z.infer<typeof SearchMentionsSchema>;
 export type ListMentionsInput = z.infer<typeof ListMentionsSchema>;
 export type GetMentionInput = z.infer<typeof GetMentionSchema>;
 export type UpdateMentionInput = z.infer<typeof UpdateMentionSchema>;
+export type RecordResponseInput = z.infer<typeof RecordResponseSchema>;
+export type ListResponsesInput = z.infer<typeof ListResponsesSchema>;
+export type GetResponseInput = z.infer<typeof GetResponseSchema>;
 
 // All schemas for easy lookup
 export const ToolSchemas = {
@@ -48,6 +75,9 @@ export const ToolSchemas = {
   list_mentions: ListMentionsSchema,
   get_mention: GetMentionSchema,
   update_mention: UpdateMentionSchema,
+  record_response: RecordResponseSchema,
+  list_responses: ListResponsesSchema,
+  get_response: GetResponseSchema,
 } as const;
 
 type ToolName = keyof typeof ToolSchemas;
