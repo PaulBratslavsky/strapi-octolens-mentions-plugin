@@ -1,6 +1,6 @@
 {
   "name": "octalens-mentions",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "A Strapi v5 plugin that fetches social mentions from Octolens and exposes them via MCP (Model Context Protocol), enabling AI assistants like Claude to search, analyze, and help write responses to social media mentions.",
   "keywords": [
     "strapi",
