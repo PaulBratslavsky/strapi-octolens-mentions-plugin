@@ -1,13 +1,12 @@
 import type { Core } from '@strapi/strapi';
-import { validateToolInput } from '../schemas';
-import { sanitizeOutput, sanitizeInput } from '../utils/sanitize';
+import { updateMentionTool } from '../../tools';
 
-const MENTION_UID = 'plugin::octalens-mentions.mention';
+export { updateMentionTool };
 
-export const updateMentionTool = {
+// MCP tool definition (JSON Schema format for MCP protocol)
+export const updateMentionToolMcp = {
   name: 'update_mention',
-  description:
-    'Update a mention by its document ID. Use this to bookmark mentions or update their action status (e.g., mark as "answered", "pending", "ignored").',
+  description: updateMentionTool.description,
   inputSchema: {
     type: 'object' as const,
     properties: {
@@ -34,67 +33,18 @@ export const updateMentionTool = {
   },
 };
 
+/**
+ * MCP handler -- delegates to canonical tool and wraps result in MCP envelope
+ */
 export async function handleUpdateMention(strapi: Core.Strapi, args: unknown) {
-  const validatedArgs = validateToolInput('update_mention', args);
-  const { documentId, data } = validatedArgs;
+  const result = await updateMentionTool.execute(args, strapi);
 
-  try {
-    // Check if mention exists first
-    const existing = await strapi.documents(MENTION_UID as any).findOne({
-      documentId,
-    });
-
-    if (!existing) {
-      return {
-        content: [
-          {
-            type: 'text' as const,
-            text: JSON.stringify(
-              {
-                error: true,
-                message: `Mention with document ID "${documentId}" not found`,
-              },
-              null,
-              2
-            ),
-          },
-        ],
-      };
-    }
-
-    // Sanitize input
-    const sanitizedData = await sanitizeInput(strapi, data);
-
-    // Update the mention
-    const result = await strapi.documents(MENTION_UID as any).update({
-      documentId,
-      data: sanitizedData,
-    });
-
-    // Sanitize output
-    const sanitizedResult = await sanitizeOutput(strapi, result);
-
-    return {
-      content: [
-        {
-          type: 'text' as const,
-          text: JSON.stringify(
-            {
-              success: true,
-              data: sanitizedResult,
-              message: `Mention "${documentId}" updated successfully`,
-            },
-            null,
-            2
-          ),
-        },
-      ],
-    };
-  } catch (error) {
-    strapi.log.error('[octalens-mentions] Update mention failed', {
-      error: error instanceof Error ? error.message : String(error),
-      documentId,
-    });
-    throw error;
-  }
+  return {
+    content: [
+      {
+        type: 'text' as const,
+        text: JSON.stringify(result, null, 2),
+      },
+    ],
+  };
 }

@@ -1,13 +1,12 @@
 import type { Core } from '@strapi/strapi';
-import { validateToolInput } from '../schemas';
-import { sanitizeOutput } from '../utils/sanitize';
+import { listMentionsTool } from '../../tools';
 
-const MENTION_UID = 'plugin::octalens-mentions.mention';
+export { listMentionsTool };
 
-export const listMentionsTool = {
+// MCP tool definition (JSON Schema format for MCP protocol)
+export const listMentionsToolMcp = {
   name: 'list_mentions',
-  description:
-    'List all social mentions with pagination. Returns a paginated list of mentions sorted by creation date (newest first by default). Use search_mentions for filtering.',
+  description: listMentionsTool.description,
   inputSchema: {
     type: 'object' as const,
     properties: {
@@ -28,47 +27,18 @@ export const listMentionsTool = {
   },
 };
 
+/**
+ * MCP handler -- delegates to canonical tool and wraps result in MCP envelope
+ */
 export async function handleListMentions(strapi: Core.Strapi, args: unknown) {
-  const validatedArgs = validateToolInput('list_mentions', args);
-  const { page, pageSize, sort } = validatedArgs;
+  const result = await listMentionsTool.execute(args, strapi);
 
-  try {
-    const results = await strapi.documents(MENTION_UID as any).findMany({
-      sort: sort ? [sort] : ['createdAt:desc'],
-      limit: pageSize,
-      start: (page - 1) * pageSize,
-    });
-
-    // Get total count for pagination info
-    const total = await strapi.documents(MENTION_UID as any).count({});
-
-    // Sanitize output
-    const sanitizedResults = await sanitizeOutput(strapi, results);
-
-    return {
-      content: [
-        {
-          type: 'text' as const,
-          text: JSON.stringify(
-            {
-              data: sanitizedResults,
-              pagination: {
-                page,
-                pageSize,
-                total,
-                pageCount: Math.ceil(total / pageSize),
-              },
-            },
-            null,
-            2
-          ),
-        },
-      ],
-    };
-  } catch (error) {
-    strapi.log.error('[octalens-mentions] List mentions failed', {
-      error: error instanceof Error ? error.message : String(error),
-    });
-    throw error;
-  }
+  return {
+    content: [
+      {
+        type: 'text' as const,
+        text: JSON.stringify(result, null, 2),
+      },
+    ],
+  };
 }
