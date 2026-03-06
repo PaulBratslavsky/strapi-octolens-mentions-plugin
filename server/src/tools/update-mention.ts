@@ -7,7 +7,10 @@ const MENTION_UID = 'plugin::octalens-mentions.mention';
 
 async function execute(args: unknown, strapi: Core.Strapi): Promise<unknown> {
   const validatedArgs = UpdateMentionSchema.parse(args);
-  const { documentId, data } = validatedArgs;
+  const { documentId, bookmarked, action } = validatedArgs;
+  const data: Record<string, unknown> = {};
+  if (bookmarked !== undefined) data.bookmarked = bookmarked;
+  if (action !== undefined) data.action = action;
 
   // Check if mention exists first
   const existing = await strapi.documents(MENTION_UID as any).findOne({
@@ -40,8 +43,7 @@ async function execute(args: unknown, strapi: Core.Strapi): Promise<unknown> {
 export const updateMentionTool: ToolDefinition = {
   name: 'updateMention',
   description:
-    'Update a social mention. Can set bookmark status (true/false) ' +
-    'and action (answered, pending, ignored).',
+    'Update a social mention. Can set bookmark status and action (answered, pending, ignored).',
   schema: UpdateMentionSchema,
   execute,
   publicSafe: false,

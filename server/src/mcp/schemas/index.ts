@@ -29,11 +29,9 @@ export const GetMentionSchema = z.object({
 
 // Schema for update_mention tool
 export const UpdateMentionSchema = z.object({
-  documentId: z.string().min(1, 'Document ID is required'),
-  data: z.object({
-    bookmarked: z.boolean().optional(),
-    action: z.string().optional(),
-  }).describe('Fields to update on the mention'),
+  documentId: z.string().min(1).describe('The documentId of the mention to update'),
+  bookmarked: z.boolean().optional().describe('Set bookmark status'),
+  action: z.enum(['answered', 'pending', 'ignored']).optional().describe('Set action status'),
 });
 
 // Schema for record_response tool

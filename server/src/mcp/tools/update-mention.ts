@@ -14,22 +14,17 @@ export const updateMentionToolMcp = {
         type: 'string',
         description: 'The document ID of the mention to update',
       },
-      data: {
-        type: 'object',
-        description: 'Fields to update on the mention',
-        properties: {
-          bookmarked: {
-            type: 'boolean',
-            description: 'Whether the mention is bookmarked',
-          },
-          action: {
-            type: 'string',
-            description: 'Action status (e.g., "answered", "pending", "ignored")',
-          },
-        },
+      bookmarked: {
+        type: 'boolean',
+        description: 'Set bookmark status',
+      },
+      action: {
+        type: 'string',
+        enum: ['answered', 'pending', 'ignored'],
+        description: 'Set action status',
       },
     },
-    required: ['documentId', 'data'],
+    required: ['documentId'],
   },
 };
 
