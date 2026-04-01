@@ -12,4 +12,12 @@ export default ({ strapi }: { strapi: Core.Strapi }) => ({
   getTools() {
     return tools;
   },
+
+  getMeta() {
+    return {
+      label: 'OctaLens Mentions',
+      description: 'Search, list, and manage social media mentions, Reddit posts, and brand monitoring data',
+      keywords: ['/octalens', '/mentions', 'social', 'reddit', 'brand monitoring'],
+    };
+  },
 });
